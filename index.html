@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy New Year Darling 💓</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0033 50%, #0a0a0a 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Stars */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite, drift 30s linear infinite;
+            box-shadow: 
+                0 0 2px rgba(255, 255, 255, 1),
+                0 0 4px rgba(255, 255, 255, 0.8),
+                0 0 6px rgba(255, 255, 255, 0.6),
+                0 0 8px rgba(255, 255, 255, 0.4);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { 
+                opacity: 0.4;
+                transform: scale(0.8);
+            }
+            50% { 
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(20px, -30px); }
+            50% { transform: translate(-15px, -50px); }
+            75% { transform: translate(25px, -20px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* Fireworks */
+        .fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .rocket {
+            position: absolute;
+            bottom: 0;
+            width: 4px;
+            height: 10px;
+            background: linear-gradient(to top, #ff6b6b, #ffd700);
+            border-radius: 2px 2px 0 0;
+            animation: launch 1.5s ease-out forwards;
+        }
+
+        .rocket::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 8px;
+            background: radial-gradient(circle, rgba(255, 200, 0, 0.8), transparent);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        }
+
+        @keyframes launch {
+            to {
+                transform: translateY(var(--launch-height));
+                opacity: 0;
+            }
+        }
+
+        .explosion {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            animation: explode 1s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Video container */
+        .video-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 20px;
+            background: #000;
+        }
+
+        @media (max-width: 768px) {
+            .video-container {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="fireworks" id="fireworks"></div>
+    
+    <div class="video-container">
+        <video id="newYearVideo" controls autoplay muted playsinline preload="auto">
+            <source src="https://rafwansafeer.github.io/New-year-Compilation/Done%20new%20year%20compilation.mp4" type="video/mp4">
+            <source src="Done new year compilation.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <script>
+        // Create stars
+        const starsContainer = document.getElementById('stars');
+        const starColors = [
+            'rgba(255, 255, 255, 1)',
+            'rgba(200, 220, 255, 1)',
+            'rgba(255, 250, 200, 1)',
+            'rgba(255, 200, 200, 1)'
+        ];
+        
+        for (let i = 0; i < 200; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            
+            const size = Math.random() * 2 + 1; // 1px to 3px
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            
+            const color = starColors[Math.floor(Math.random() * starColors.length)];
+            const glowIntensity = 0.5 + Math.random() * 0.5;
+            
+            star.style.background = color;
+            star.style.boxShadow = `
+                0 0 ${2 + size}px ${color},
+                0 0 ${4 + size * 2}px rgba(255, 255, 255, ${glowIntensity * 0.7}),
+                0 0 ${6 + size * 3}px rgba(255, 255, 255, ${glowIntensity * 0.5}),
+                0 0 ${8 + size * 4}px rgba(255, 255, 255, ${glowIntensity * 0.3})
+            `;
+            
+            star.style.animationDelay = Math.random() * 3 + 's';
+            const driftDuration = 20 + Math.random() * 40;
+            star.style.animation = `twinkle ${2 + Math.random() * 2}s infinite, drift ${driftDuration}s linear infinite`;
+            
+            starsContainer.appendChild(star);
+        }
+
+        // Fireworks
+        const fireworksContainer = document.getElementById('fireworks');
+        const fireworkColors = [
+            ['#ff6b6b', '#ffd700', '#4ecdc4', '#ffe66d'],
+            ['#ff6b6b', '#ff4757', '#ffa502', '#ff6348'],
+            ['#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7'],
+            ['#a29bfe', '#6c5ce7', '#fd79a8', '#fdcb6e'],
+            ['#ffd700', '#ff6b6b', '#4ecdc4', '#ffe66d']
+        ];
+
+        function createFirework() {
+            const x = Math.random() * 100;
+            const launchHeight = 30 + Math.random() * 50;
+            
+            const rocket = document.createElement('div');
+            rocket.className = 'rocket';
+            rocket.style.left = x + '%';
+            rocket.style.setProperty('--launch-height', `-${launchHeight}vh`);
+            fireworksContainer.appendChild(rocket);
+
+            setTimeout(() => {
+                const colorSet = fireworkColors[Math.floor(Math.random() * fireworkColors.length)];
+                const particleCount = 30 + Math.random() * 20;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'explosion';
+                    
+                    const color = colorSet[Math.floor(Math.random() * colorSet.length)];
+                    particle.style.background = color;
+                    particle.style.boxShadow = `0 0 6px ${color}, 0 0 12px ${color}`;
+                    
+                    particle.style.left = x + '%';
+                    particle.style.bottom = `${100 - launchHeight}%`;
+                    
+                    const angle = (Math.PI * 2 * i) / particleCount + (Math.random() - 0.5) * 0.5;
+                    const distance = 50 + Math.random() * 100;
+                    const tx = Math.cos(angle) * distance;
+                    const ty = Math.sin(angle) * distance;
+                    
+                    particle.style.setProperty('--tx', tx + 'px');
+                    particle.style.setProperty('--ty', ty + 'px');
+                    
+                    const size = 2 + Math.random() * 3;
+                    particle.style.width = size + 'px';
+                    particle.style.height = size + 'px';
+                    particle.style.animationDelay = Math.random() * 0.1 + 's';
+                    
+                    fireworksContainer.appendChild(particle);
+                }
+                
+                rocket.remove();
+                
+                setTimeout(() => {
+                    document.querySelectorAll('.explosion').forEach(p => {
+                        if (p.parentElement) p.remove();
+                    });
+                }, 1000);
+            }, 1500);
+        }
+
+        function startFireworks() {
+            setTimeout(() => {
+                const count = 7 + Math.floor(Math.random() * 4);
+                for (let i = 0; i < count; i++) {
+                    setTimeout(() => createFirework(), i * 80);
+                }
+            }, 1000);
+            
+            setInterval(() => {
+                const count = 7 + Math.floor(Math.random() * 4);
+                for (let i = 0; i < count; i++) {
+                    setTimeout(() => createFirework(), i * 80);
+                }
+            }, 1500 + Math.random() * 1500);
+        }
+
+        startFireworks();
+
+        // Video setup
+        const video = document.getElementById('newYearVideo');
+        
+        // Try to load and play video
+        video.addEventListener('canplay', () => {
+            video.play().catch(err => {
+                console.log('Autoplay blocked:', err);
+            });
+        });
+
+        video.addEventListener('error', (e) => {
+            console.error('Video error:', e);
+            console.error('Video source:', video.currentSrc);
+        });
+
+        // Unmute on user interaction
+        document.addEventListener('click', () => {
+            if (video.muted) {
+                video.muted = false;
+                video.play().catch(err => {
+                    console.log('Play error:', err);
+                });
+            }
+        }, { once: true });
+
+        // Try to play when video is ready
+        video.addEventListener('loadedmetadata', () => {
+            video.play().catch(err => {
+                console.log('Autoplay with sound blocked. Click to play.');
+            });
+        });
+    </script>
+</body>
+</html>
