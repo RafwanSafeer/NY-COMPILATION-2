@@ -154,8 +154,7 @@
     <div class="fireworks" id="fireworks"></div>
     
     <div class="video-container">
-        <video id="newYearVideo" controls autoplay muted playsinline preload="auto">
-            <source src="https://rafwansafeer.github.io/New-year-Compilation/Done%20new%20year%20compilation.mp4" type="video/mp4">
+        <video id="newYearVideo" controls autoplay playsinline preload="auto">
             <source src="Done new year compilation.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
@@ -293,14 +292,11 @@
             console.error('Video source:', video.currentSrc);
         });
 
-        // Unmute on user interaction
+        // Play video with sound on user interaction
         document.addEventListener('click', () => {
-            if (video.muted) {
-                video.muted = false;
-                video.play().catch(err => {
-                    console.log('Play error:', err);
-                });
-            }
+            video.play().catch(err => {
+                console.log('Play error:', err);
+            });
         }, { once: true });
 
         // Try to play when video is ready
